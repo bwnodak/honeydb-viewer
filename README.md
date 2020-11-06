@@ -1,6 +1,24 @@
-# Getting Started with Create React App
+# HoneyDB Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+HoneyDB is a community driven honeypot data aggregation site. This client is for displaying the last 24 hours of bad host activity in the HoneyDB network and providing geolocation details of those bad hosts.
+
+Per the HoneyDB API docs:
+
+> A bad host is a host on the Internet that has connected or attempted to connect to one of the honeypots that feed data to HoneyDB. In general, there is no legitimate reason for any host to connect to these honeypots. So those that do can be considered bad, and a potential threat. If you see connectivity from any of these hosts on your network it may be malicious and may require some investigation.
+
+## Setup
+
+Run `yarn` to install all dependencies.
+
+Generate an API key at [HoneyDB](https://honeydb.io/login).
+
+Add a `.env.local` file to the project root with the following environment variables to enable API access:
+
+```
+REACT_APP_API_KEY="...secret-key..."
+```
+
+Run `yarn start` to begin. More avaialble scripts are described below.
 
 ## Available Scripts
 
@@ -26,21 +44,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
