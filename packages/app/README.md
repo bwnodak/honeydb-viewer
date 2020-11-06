@@ -15,6 +15,7 @@ Generate an API key at [HoneyDB](https://honeydb.io/login).
 Add a `.env.local` file to the project root with the following environment variables to enable API access:
 
 ```
+REACT_APP_API_ID="...generated-id..."
 REACT_APP_API_KEY="...secret-key..."
 ```
 

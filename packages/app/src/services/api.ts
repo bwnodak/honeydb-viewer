@@ -1,15 +1,11 @@
-const API = "https://honeydb.io/api";
-const API_KEY = process.env.REACT_APP_API_KEY as string;
-const AUTH_HEADER = "X-HoneyDb-ApiId";
-
 export type BadHostsApiResponse = Array<{
   count: string;
   last_seen: string;
   remote_host: string;
 }>;
 
-export const getBadHosts = async (): Promise<{}> => {
-  return get("/bad-hosts");
+export const getBadHosts = async (): Promise<BadHostsApiResponse> => {
+  return get("/bad-hosts") as Promise<BadHostsApiResponse>;
 };
 
 export interface GeoApiResponse {
@@ -23,20 +19,23 @@ export interface GeoApiResponse {
   region_name: string;
 }
 
-export const getGeo = async (ip: string): Promise<{}> => {
-  return get(`/netinfo/geolocation/${ip}`);
+export const getGeo = async (ip: string): Promise<GeoApiResponse> => {
+  return get(`/netinfo/geolocation/${ip}`) as Promise<GeoApiResponse>;
 };
 
 export type ApiResponse = BadHostsApiResponse | GeoApiResponse;
 
 const get = async (endpoint: string): Promise<ApiResponse> => {
-  const url = `${API}${endpoint}`;
+  const url = `https://honeydb.io/api${endpoint}`;
+  const headers = new Headers({
+    "X-HoneyDb-ApiId": process.env.REACT_APP_API_ID as string,
+    "X-HoneyDb-ApiKey": process.env.REACT_APP_API_KEY as string,
+    "Content-Type": "application/json",
+  })
   const response = await fetch(url, {
-    headers: {
-      [AUTH_HEADER]: API_KEY,
-      "Content-Type": "application/json",
-    },
+    headers,
     method: "GET",
+    redirect: 'follow'
   });
 
   if (response.status === 200) {
