@@ -2,8 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const request = require('request');
 
+const cors = require('./middleware/cors');
 const auth = require('./middleware/auth');
 const ratelimit = require('./middleware/ratelimit');
+const compression = require('./middleware/compression');
 
 dotenv.config({ path: '../../.env' });
 
@@ -14,8 +16,10 @@ const port = process.env.PORT || 4000;
 // see https://expressjs.com/en/guide/behind-proxies.html
 // app.set('trust proxy', 1);
 
+app.use(cors);
 app.use(ratelimit);
 app.use(auth);
+app.use(compression);
 
 app.get('*', (req, res) => {
   request.get(`${process.env.HONEYDB_API}${req.path}`, {
