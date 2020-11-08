@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  const headerSecret = req.headers['authorization'] === `Bearer ${process.env.API_SECRET}`;
+  const headerSecret = req.headers['Authorization'] === `Bearer ${process.env.API_SECRET}`;
   const qsSecret = req.query.authorization === process.env.API_SECRET;
 
   if (headerSecret || qsSecret) {
