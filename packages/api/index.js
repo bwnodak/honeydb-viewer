@@ -22,8 +22,8 @@ app.get('*', (req, res) => {
     json: true,
     method: 'GET',
     headers: {
-      "X-HoneyDb-ApiId": process.env.HONEYDB_API_ID,
-      "X-HoneyDb-ApiKey": process.env.HONEYDB_API_KEY,
+      'X-HoneyDb-ApiId': process.env.HONEYDB_API_ID,
+      'X-HoneyDb-ApiKey': process.env.HONEYDB_API_KEY,
     }
   }, (e, r, data) => {
     if (e) {
@@ -33,6 +33,7 @@ app.get('*', (req, res) => {
         success: false
       })
     } else {
+      res.header('Cache-Control', 'public, max-age=300'); // cache for 5min
       res.json({
         data,
         success: true
