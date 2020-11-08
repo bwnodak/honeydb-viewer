@@ -1,4 +1,4 @@
-# HoneyDB Client
+# HoneyDB Viewer
 
 HoneyDB is a community driven honeypot data aggregation site. This client is for displaying the last 24 hours of bad host activity in the HoneyDB network and providing geolocation details of those bad hosts.
 
@@ -8,30 +8,20 @@ Per the HoneyDB API docs:
 
 ## Setup
 
-Run `yarn` to install all dependencies.
-
-Generate an API key at [HoneyDB](https://honeydb.io/login).
-
-Add a `.env.local` file to the project root with the following environment variables to enable API access:
-
-```
-REACT_APP_API_ID="...generated-id..."
-REACT_APP_API_KEY="...secret-key..."
-```
-
-Run `yarn start` to begin. More avaialble scripts are described below.
+- Run `yarn` to install all dependencies.
+- Generate an API key at [HoneyDB](https://honeydb.io/login).
+- Add a `.env` file to the project root mirroring the `.env.sample` file.
+- Run `yarn start` to begin. More avaialble scripts are described below.
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project root, you can run:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Will start the `app` and `api` packages on ports 3000 and 4000, respectively.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The `app` package will automatically open in the default browser and auto-update on save.
 
 ### `yarn test`
 
