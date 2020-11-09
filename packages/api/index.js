@@ -1,13 +1,10 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const request = require('request');
 
 const cors = require('./middleware/cors');
 const auth = require('./middleware/auth');
 const ratelimit = require('./middleware/ratelimit');
 const compression = require('./middleware/compression');
-
-dotenv.config({ path: '../../.env' });
 
 const app = express();
 const port = process.env.PORT || 4000;
