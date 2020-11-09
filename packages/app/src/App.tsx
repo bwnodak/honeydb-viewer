@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { BadHostsApiResponse, getBadHosts } from './services/api';
+import BadHostTable from './components/EnhancedTable';
+import { BadHost, getBadHosts } from './services/api';
 
 const App = () => {
-  const [hosts, setHosts] = useState<BadHostsApiResponse>([]);
+  const [hosts, setHosts] = useState<BadHost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -26,11 +27,9 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      {hosts.map((host) => (
-        <div>{host.remote_host}</div>
-      ))}
-    </div>
+    <>
+      <BadHostTable rows={hosts} />
+    </>
   );
 }
 

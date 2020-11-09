@@ -1,14 +1,18 @@
-export type BadHostsApiResponse = Array<{
-  count: string;
+export interface BadHost {
+  count: number;
   last_seen: string;
   remote_host: string;
-}>;
+}
 
-export const getBadHosts = async (): Promise<BadHostsApiResponse> => {
-  return get("/bad-hosts") as Promise<BadHostsApiResponse>;
+export const getBadHosts = async (): Promise<BadHost[]> => {
+  const data = await get("/bad-hosts") as BadHost[];
+  return data.map((host) => ({
+    ...host,
+    count: parseInt(`${host.count}`, 10)
+  }));
 };
 
-export interface GeoApiResponse {
+export interface Geolocation {
   city: string;
   country_iso: string;
   country_name: string;
@@ -19,17 +23,16 @@ export interface GeoApiResponse {
   region_name: string;
 }
 
-export const getGeo = async (ip: string): Promise<GeoApiResponse> => {
-  return get(`/netinfo/geolocation/${ip}`) as Promise<GeoApiResponse>;
+export const getGeo = async (ip: string): Promise<Geolocation> => {
+  return get(`/netinfo/geolocation/${ip}`) as Promise<Geolocation>;
 };
 
-export type ApiResponse = BadHostsApiResponse | GeoApiResponse;
+export type ApiResponse = BadHost[] | Geolocation;
 
 const get = async (endpoint: string): Promise<ApiResponse> => {
-  const url = `https://honeydb.io/api${endpoint}`;
+  const url = `${process.env.REACT_APP_API_URL}${endpoint}`;
   const headers = new Headers({
-    "X-HoneyDb-ApiId": process.env.REACT_APP_API_ID as string,
-    "X-HoneyDb-ApiKey": process.env.REACT_APP_API_KEY as string,
+    "Authorization": `Bearer ${process.env.REACT_APP_API_SECRET}`,
     "Content-Type": "application/json",
   })
   const response = await fetch(url, {
@@ -39,7 +42,8 @@ const get = async (endpoint: string): Promise<ApiResponse> => {
   });
 
   if (response.status === 200) {
-    return await response.json();
+    let json = await response.json();
+    return json.data;
   } else {
     throw new Error("Problem with API request");
   }
