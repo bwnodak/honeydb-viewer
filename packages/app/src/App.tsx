@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BadHostTable from './components/EnhancedTable';
+import Map from './components/Map';
 import { BadHost, getBadHosts } from './services/api';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
 
   return (
     <>
+      <Map />
       <BadHostTable rows={hosts} />
     </>
   );
