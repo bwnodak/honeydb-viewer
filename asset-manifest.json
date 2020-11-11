@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/honeydb-viewer/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/honeydb-viewer/static/js/main.33e1aa5e.chunk.js",
+    "main.js.map": "/honeydb-viewer/static/js/main.33e1aa5e.chunk.js.map",
+    "runtime-main.js": "/honeydb-viewer/static/js/runtime-main.8e3a0cce.js",
+    "runtime-main.js.map": "/honeydb-viewer/static/js/runtime-main.8e3a0cce.js.map",
+    "static/js/2.5f1c14fc.chunk.js": "/honeydb-viewer/static/js/2.5f1c14fc.chunk.js",
+    "static/js/2.5f1c14fc.chunk.js.map": "/honeydb-viewer/static/js/2.5f1c14fc.chunk.js.map",
+    "static/js/3.f20abab0.chunk.js": "/honeydb-viewer/static/js/3.f20abab0.chunk.js",
+    "static/js/3.f20abab0.chunk.js.map": "/honeydb-viewer/static/js/3.f20abab0.chunk.js.map",
+    "index.html": "/honeydb-viewer/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/honeydb-viewer/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.5f1c14fc.chunk.js.LICENSE.txt": "/honeydb-viewer/static/js/2.5f1c14fc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8e3a0cce.js",
+    "static/js/2.5f1c14fc.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.33e1aa5e.chunk.js"
+  ]
+}
