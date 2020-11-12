@@ -2,7 +2,7 @@
   "name": "honeydb-client",
   "private": true,
   "scripts": {
-    "heroku-prebuild": "yarn && yarn bootstrap",
+    "heroku-prebuild": "yarn global add lerna && yarn bootstrap",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "start": "lerna run start",
