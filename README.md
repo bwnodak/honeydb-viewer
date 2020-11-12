@@ -6,11 +6,14 @@ Per the HoneyDB API docs:
 
 > A bad host is a host on the Internet that has connected or attempted to connect to one of the honeypots that feed data to HoneyDB. In general, there is no legitimate reason for any host to connect to these honeypots. So those that do can be considered bad, and a potential threat. If you see connectivity from any of these hosts on your network it may be malicious and may require some investigation.
 
+https://yonbeastie.github.io/honeydb-viewer/
+
 ## Setup
 
 - Run `yarn` to install all dependencies.
 - Generate an API key at [HoneyDB](https://honeydb.io/login).
 - Add a `.env` file to the project root mirroring the `.env.sample` file.
+- Symlink the `.env` from the project root to all package directories, e.g. `ln -s ./.env ./pacakages/api/.env`.
 - Run `yarn start` to begin. More avaialble scripts are described below.
 
 ## Available Scripts

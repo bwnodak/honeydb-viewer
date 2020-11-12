@@ -1,10 +1,13 @@
-const express = require('express');
-const request = require('request');
+const express = require("express");
+const request = require("request");
+const dotenv = require("dotenv");
 
-const cors = require('./middleware/cors');
-const auth = require('./middleware/auth');
-const ratelimit = require('./middleware/ratelimit');
-const compression = require('./middleware/compression');
+dotenv.config();
+
+const cors = require("./middleware/cors");
+const auth = require("./middleware/auth");
+const ratelimit = require("./middleware/ratelimit");
+const compression = require("./middleware/compression");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -18,29 +21,33 @@ app.use(ratelimit);
 app.use(auth);
 app.use(compression);
 
-app.get('*', (req, res) => {
-  request.get(`${process.env.HONEYDB_API}${req.path}`, {
-    json: true,
-    method: 'GET',
-    headers: {
-      'X-HoneyDb-ApiId': process.env.HONEYDB_API_ID,
-      'X-HoneyDb-ApiKey': process.env.HONEYDB_API_KEY,
+app.get("*", (req, res) => {
+  request.get(
+    `${process.env.HONEYDB_API}${req.path}`,
+    {
+      json: true,
+      method: "GET",
+      headers: {
+        "X-HoneyDb-ApiId": process.env.HONEYDB_API_ID,
+        "X-HoneyDb-ApiKey": process.env.HONEYDB_API_KEY,
+      },
+    },
+    (e, r, data) => {
+      if (e) {
+        res.status(500);
+        res.json({
+          data: null,
+          success: false,
+        });
+      } else {
+        res.header("Cache-Control", "public, max-age=300"); // cache for 5min
+        res.json({
+          data,
+          success: true,
+        });
+      }
     }
-  }, (e, r, data) => {
-    if (e) {
-      res.status(500);
-      res.json({
-        data: null,
-        success: false
-      })
-    } else {
-      res.header('Cache-Control', 'public, max-age=300'); // cache for 5min
-      res.json({
-        data,
-        success: true
-      });
-    }
-  });
+  );
 });
 
 app.listen(port, () => {
