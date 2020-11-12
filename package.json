@@ -2,8 +2,11 @@
   "name": "honeydb-client",
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
     "start": "lerna run start",
-    "deploy": "lerna run deploy"
+    "deploy": "lerna run deploy",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

@@ -11,6 +11,8 @@ cache: yarn
 
 jobs:
   include:
+    - stage: bootstrap
+      script: yarn bootstrap
     - stage: unit tests (api + app)
       script: yarn test
     - stage: build app

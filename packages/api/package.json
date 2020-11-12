@@ -5,8 +5,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "noop",
-    "start": "dotenv -e ../../.env node index.js"
+    "build": "echo 'build'",
+    "start": "dotenv -e ../../.env node index.js",
+    "test": "echo 'test'"
   },
   "dependencies": {
     "compression": "^1.7.4",
