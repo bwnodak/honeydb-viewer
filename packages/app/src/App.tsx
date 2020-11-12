@@ -1,38 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import BadHostTable from './components/EnhancedTable';
-import Map from './components/Map';
-import { BadHost, getBadHosts } from './services/api';
+import React, { useState } from "react";
+import Container from "@material-ui/core/Container";
+import BadHostTable from "./components/EnhancedTable";
+import Map from "./components/Map";
 
 const App = () => {
-  const [hosts, setHosts] = useState<BadHost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [selectedHost, setSelectedHost] = useState("");
 
-  useEffect(() => {
-    getBadHosts()
-      .then((hosts) => {
-        setHosts(hosts);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-      });
-  }, []);
-
-  if (error) {
-    return <div>Error Loading Bad Hosts</div>
-  }
-
-  if (loading) {
-    return <div>Loading Bad Hosts</div>
-  }
+  const handleSelectHost = (host: string) => {
+    setSelectedHost(host);
+  };
 
   return (
-    <>
-      <Map />
-      <BadHostTable rows={hosts} />
-    </>
+    <Container maxWidth={"md"}>
+      {selectedHost && <Map host={selectedHost} />}
+      <BadHostTable onSelectHost={handleSelectHost} />
+    </Container>
   );
-}
+};
 
 export default App;

@@ -1,18 +1,15 @@
-import React from 'react';
-import clsx from 'clsx';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import { BadHost } from "../services/api";
+import React, { useEffect, useState } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Paper from "@material-ui/core/Paper";
+import { BadHost, getBadHosts } from "../services/api";
 
 type Data = BadHost;
 
@@ -26,13 +23,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key,
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-  return order === 'desc'
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -55,14 +55,27 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-  { id: 'remote_host', numeric: false, disablePadding: true, label: 'Remote Host (IP Address)' },
-  { id: 'count', numeric: true, disablePadding: false, label: 'Count' },
-  { id: 'last_seen', numeric: true, disablePadding: false, label: 'Last Seen' }
+  {
+    id: "remote_host",
+    numeric: false,
+    disablePadding: false,
+    label: "Remote Host (IP Address)",
+  },
+  { id: "count", numeric: true, disablePadding: false, label: "Count" },
+  {
+    id: "last_seen",
+    numeric: false,
+    disablePadding: false,
+    label: "Last Seen",
+  },
 ];
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -70,7 +83,9 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { classes, order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof Data) => (
+    event: React.MouseEvent<unknown>
+  ) => {
     onRequestSort(event, property);
   };
 
@@ -80,19 +95,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -103,49 +118,13 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-const useToolbarStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
-    },
-    highlight:
-      theme.palette.type === 'light'
-        ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-          }
-        : {
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark,
-          },
-    title: {
-      flex: '1 1 100%',
-    },
-  }),
-);
-
-const EnhancedTableToolbar = () => {
-  const classes = useToolbarStyles();
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {})}
-    >
-      <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-        Bad Hosts
-      </Typography>
-    </Toolbar>
-  );
-};
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
+      width: "100%",
     },
     paper: {
-      width: '100%',
+      width: "100%",
       marginBottom: theme.spacing(2),
     },
     table: {
@@ -153,73 +132,103 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     visuallyHidden: {
       border: 0,
-      clip: 'rect(0 0 0 0)',
+      clip: "rect(0 0 0 0)",
       height: 1,
       margin: -1,
-      overflow: 'hidden',
+      overflow: "hidden",
       padding: 0,
-      position: 'absolute',
+      position: "absolute",
       top: 20,
       width: 1,
     },
-  }),
+  })
 );
 
-interface TableProps {
-  rows: Data[]
+interface Props {
+  onSelectHost: (host: string) => void;
 }
 
-export default function EnhancedTable(props: TableProps) {
+export default function EnhancedTable(props: Props) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('count');
+  const [order, setOrder] = React.useState<Order>("desc");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("count");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+  const [hosts, setHosts] = useState<BadHost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    getBadHosts()
+      .then((data) => {
+        const sortedData = data.sort((a, b) => b.count - a.count);
+        setHosts(sortedData);
+        setLoading(false);
+        props.onSelectHost(sortedData[0]?.remote_host);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  });
+
+  if (error) {
+    return <div>Error Loading Bad Hosts</div>;
+  }
+
+  if (loading) {
+    return <div>Loading Bad Hosts</div>;
+  }
+
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    console.log('click');
+  const handleClick = (event: React.MouseEvent<unknown>, host: string) => {
+    props.onSelectHost(host);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, hosts.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
             size="medium"
-            aria-label="enhanced table"
+            aria-label="Bad Hosts Table"
           >
             <EnhancedTableHead
               classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={props.rows.length}
+              rowCount={hosts.length}
             />
             <TableBody>
-              {stableSort(props.rows, getComparator(order, orderBy))
+              {stableSort(hosts, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const labelId = `enhanced-table-row-${index}`;
 
                   return (
                     <TableRow
@@ -227,8 +236,9 @@ export default function EnhancedTable(props: TableProps) {
                       onClick={(event) => handleClick(event, row.remote_host)}
                       tabIndex={-1}
                       key={row.remote_host}
+                      style={{ cursor: "pointer" }}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell component="th" id={labelId} scope="row">
                         {row.remote_host}
                       </TableCell>
                       <TableCell align="right">{row.count}</TableCell>
@@ -247,7 +257,7 @@ export default function EnhancedTable(props: TableProps) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.rows.length}
+          count={hosts.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
