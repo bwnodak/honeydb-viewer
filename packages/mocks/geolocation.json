@@ -1,0 +1,13 @@
+{
+  "data": {
+    "city": "Haarlem",
+    "country_iso": "NL",
+    "country_name": "Netherlands",
+    "latitude": 52.3812,
+    "longitude": 4.6361,
+    "postal_code": "2011",
+    "region_iso": "NH",
+    "region_name": "North Holland"
+  },
+  "success": true
+}
