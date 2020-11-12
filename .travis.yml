@@ -15,9 +15,9 @@ install:
 
 jobs:
   include:
-    - stage: unit tests (api + app)
-      script: yarn test
-    - stage: build app
+    # - stage: test
+    #   script: yarn test
+    - stage: build
       script: yarn build
     - stage: deploy (api)
       script: skip
