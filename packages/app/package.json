@@ -1,7 +1,16 @@
 {
   "name": "@honeydb-viewer/app",
   "version": "0.1.0",
+  "homepage": "https://yonbeastie.github.io/honeydb-viewer",
   "private": true,
+  "scripts": {
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    "start": "dotenv -e ../../.env react-scripts start",
+    "build": "dotenv -e ../../.env react-scripts build",
+    "test": "dotenv -e ../../.env react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -17,6 +26,7 @@
     "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "gh-pages": "^3.1.0",
     "husky": "^4.3.0",
     "leaflet": "^1.7.1",
     "prettier": "^2.1.2",
@@ -27,12 +37,6 @@
     "react-scripts": "4.0.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "dotenv -e ../../.env react-scripts start",
-    "build": "dotenv -e ../../.env react-scripts build",
-    "test": "dotenv -e ../../.env react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
