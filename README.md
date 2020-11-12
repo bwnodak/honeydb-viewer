@@ -8,6 +8,8 @@ Per the HoneyDB API docs:
 
 https://yonbeastie.github.io/honeydb-viewer/
 
+[![Build Status](https://api.travis-ci.org/yonbeastie/honeydb-client.svg?branch=main)](https://travis-ci.org/github/yonbeastie/honeydb-client)
+
 ## Setup
 
 - Run `yarn` to install all dependencies.
