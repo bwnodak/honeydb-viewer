@@ -64,7 +64,7 @@ const headCells: HeadCell[] = [
   { id: "count", numeric: true, disablePadding: false, label: "Count" },
   {
     id: "last_seen",
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: "Last Seen",
   },
@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(2),
     },
     table: {
-      minWidth: 750,
+      minWidth: 550,
     },
     visuallyHidden: {
       border: 0,

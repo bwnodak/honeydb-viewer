@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import BadHostTable from "./components/EnhancedTable";
+import Typography from "@material-ui/core/Typography";
 import Map from "./components/Map";
 import { BadHost, getBadHosts } from "./services/api";
 
@@ -37,6 +38,15 @@ const App = () => {
 
   return (
     <Container maxWidth={"md"}>
+      <div style={{ textAlign: "center", margin: "30px 0 15px 0" }}>
+        <Typography variant="h2" component="h1">
+          HoneyDB Viewer
+        </Typography>
+        <Typography variant="subtitle1">
+          A tracker of for bad host behavior
+        </Typography>
+      </div>
+
       {selectedHost && <Map host={selectedHost} />}
       <BadHostTable hosts={hosts} onSelectHost={handleSelectHost} />
     </Container>
