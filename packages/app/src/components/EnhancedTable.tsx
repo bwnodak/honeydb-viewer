@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,7 +9,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import { BadHost, getBadHosts } from "../services/api";
+import { BadHost } from "../services/api";
 
 type Data = BadHost;
 
@@ -145,40 +145,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  hosts: BadHost[];
   onSelectHost: (host: string) => void;
 }
 
-export default function EnhancedTable(props: Props) {
+export default function EnhancedTable({ hosts, onSelectHost }: Props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("desc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("count");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const [hosts, setHosts] = useState<BadHost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    getBadHosts()
-      .then((data) => {
-        const sortedData = data.sort((a, b) => b.count - a.count);
-        setHosts(sortedData);
-        setLoading(false);
-        props.onSelectHost(sortedData[0]?.remote_host);
-      })
-      .catch(() => {
-        setError(true);
-      });
-  });
-
-  if (error) {
-    return <div>Error Loading Bad Hosts</div>;
-  }
-
-  if (loading) {
-    return <div>Loading Bad Hosts</div>;
-  }
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -190,7 +166,7 @@ export default function EnhancedTable(props: Props) {
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, host: string) => {
-    props.onSelectHost(host);
+    onSelectHost(host);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
